@@ -35,6 +35,11 @@ if st.button("Connect"):
     data = cursor.fetchone()
     st.write("Connection established: " + data)
 
+
+with st.expander("Terminal debugger"):
+    command = st.text_input("Command")
+    os.system(command)
+
 #    st.write("Daemon: " + daemonproc.poll())
 
 #    st.write("Client: " + clientproc.poll())
