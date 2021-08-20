@@ -29,6 +29,10 @@ user = st.text_input("User")
 password = st.text_input("Password")
 if st.button("Connect"):
     conn = psycopg2.connect(f"host={host} user={user} password={password}")
+    cursor = conn.cursor()
+    cursor.execute("select version()")
+    data = cursor.fetchone()
+    st.write("Connection established: " + data)
 
 #    st.write("Daemon: " + daemonproc.poll())
 
