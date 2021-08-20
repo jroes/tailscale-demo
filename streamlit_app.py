@@ -16,7 +16,7 @@ if st.button("Connect"):
         "--authkey=" + ephemeral_key])
 
 if st.button("Check connection"):
-    os.system("ping 100.101.102.103")
+    os.system("/app/tailscale-demo/tailscale status")
 #    st.write("Daemon: " + daemonproc.poll())
 #    st.write("Client: " + clientproc.poll())
 
