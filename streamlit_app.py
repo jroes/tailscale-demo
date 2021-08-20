@@ -17,9 +17,9 @@ if st.button("Initialize Tailscale"):
         "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
+    os.system("/app/tailscale-demo/tailscale status")
+    os.system("/app/tailscale-demo/tailscale netcheck")
+    os.system("/app/tailscale-demo/tailscale ip")
 
 st.header("Postgres")
 host = st.text_input("Host")
