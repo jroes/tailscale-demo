@@ -6,7 +6,7 @@ st.title(f"Tailscale demo")
 ephemeral_key = st.text_input("Ephemeral key")
 
 if st.button("Connect"):
-    process = subprocess.run("connect.sh", capture_output, { "TS_KEY": ephemeral_key })
+    process = subprocess.run("connect.sh", capture_output=True, { "TS_KEY": ephemeral_key })
     st.write(process.stdout)
     st.write(process.stderr)
     if process.returncode == 0:
