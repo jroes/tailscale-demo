@@ -6,16 +6,17 @@ st.title(f"Tailscale demo")
 
 ephemeral_key = st.text_input("Ephemeral key")
 
-if st.button("Connect"):
+if st.button("Start daemon"):
     os.system("ps aux | grep tailscale")
     os.system("ls -lah /tmp/tailscale*")
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
-#    subprocess.Popen(["/app/tailscale-demo/tailscale",
-#        "--socket=/tmp/tailscale.sock",
-#        "up",
-#        "--authkey=" + ephemeral_key])
+if st.button("Start client"):
+    subprocess.Popen(["/app/tailscale-demo/tailscale",
+        "--socket=/tmp/tailscale.sock",
+        "up",
+        "--authkey=" + ephemeral_key])
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale status")
