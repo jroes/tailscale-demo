@@ -13,7 +13,7 @@ daemonproc = None
 clientproc = None
 if st.button("Connect"):
     daemonproc = subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
-        "--socket=/tmp/tailscale.sock", "--state /tmp/tailscale"])
+        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
     clientproc = subprocess.Popen(["/app/tailscale-demo/tailscale", "--socket=/tmp/tailscale.sock", "up",
         "--authkey=" + ephemeral_key])
