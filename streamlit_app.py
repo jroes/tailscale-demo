@@ -1,6 +1,7 @@
 import streamlit as st
 import subprocess
 import os
+import psycopg2
 
 st.title(f"Tailscale demo")
 
@@ -21,7 +22,16 @@ if st.button("Start client"):
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale status")
     os.system("/app/tailscale-demo/tailscale netcheck")
+
+st.header("Postgres")
+host = st.text_input("Host")
+user = st.text_input("User")
+password = st.text_input("Password")
+if st.button("Connect"):
+    conn = psycopg2.connect(f"host={host} user={user} password={password}")
+
 #    st.write("Daemon: " + daemonproc.poll())
+
 #    st.write("Client: " + clientproc.poll())
 
 #    if process.returncode == 0:
