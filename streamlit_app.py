@@ -1,12 +1,15 @@
 import streamlit as st
 import subprocess
+import os
+
+cwd = os.path.dirname(os.path.realpath(__file__))
 
 st.title(f"Tailscale demo")
 
 ephemeral_key = st.text_input("Ephemeral key")
 
 if st.button("Connect"):
-    process = subprocess.run("connect.sh", capture_output=True, env={ "TS_KEY": ephemeral_key })
+    process = subprocess.run("connect.sh", capture_output=True, env={ "TS_KEY": ephemeral_key }, cwd=cwd)
     st.write(process.stdout)
     st.write(process.stderr)
     if process.returncode == 0:
