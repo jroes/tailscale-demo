@@ -12,14 +12,17 @@ ephemeral_key = st.text_input("Ephemeral key")
 if st.button("Initialize Tailscale"):
     os.system("mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale")
     subprocess.Popen(["sudo", "/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
+        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale",
         "--socks5-server=localhost:1055"])
     subprocess.Popen(["sudo", "/app/tailscale-demo/tailscale", "--authkey={ephemeral_key}",
+        "--socket=/tmp/tailscale.sock",
+        "up",
         "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
-    os.system("/app/tailscale-demo/tailscale status")
-    os.system("/app/tailscale-demo/tailscale netcheck")
-    os.system("/app/tailscale-demo/tailscale ip")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
 
 st.header("Postgres")
 host = st.text_input("Host")
