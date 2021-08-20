@@ -20,9 +20,9 @@ if st.button("Start client"):
         "--authkey=" + ephemeral_key])
 
 if st.button("Check connection"):
-    os.system("/app/tailscale-demo/tailscale status")
-    os.system("/app/tailscale-demo/tailscale netcheck")
-    os.system("/app/tailscale-demo/tailscale ip")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
+    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
 
 st.header("Postgres")
 host = st.text_input("Host")
