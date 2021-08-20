@@ -19,6 +19,7 @@ if st.button("Connect"):
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale status")
+    os.system("/app/tailscale-demo/tailscale netcheck")
 #    st.write("Daemon: " + daemonproc.poll())
 #    st.write("Client: " + clientproc.poll())
 
