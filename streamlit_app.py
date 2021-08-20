@@ -10,7 +10,7 @@ if st.button("Connect"):
     os.system("killall tailscaled")
     os.system("killall tailscale")
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking"])
-#        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
+        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
 #    subprocess.Popen(["/app/tailscale-demo/tailscale",
 #        "--socket=/tmp/tailscale.sock",
