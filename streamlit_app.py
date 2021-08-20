@@ -28,7 +28,7 @@ host = st.text_input("Host")
 user = st.text_input("User")
 password = st.text_input("Password")
 if st.button("Connect"):
-    conn = psycopg2.connect(f"host={host} user={user} password={password}")
+    conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=3)
     cursor = conn.cursor()
     cursor.execute("select version()")
     data = cursor.fetchone()
