@@ -2,22 +2,19 @@ import streamlit as st
 import subprocess
 import os
 import psycopg2
+import socks
+s.set_default_proxy(socks.SOCKS5, "localhost", 1055)
 
 st.title(f"Tailscale demo")
 
 ephemeral_key = st.text_input("Ephemeral key")
 
-if st.button("Start daemon"):
-    os.system("ps aux | grep tailscale")
-    os.system("ls -lah /tmp/tailscale*")
+if st.button("Initialize Tailscale"):
+    os.system("mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale")
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
-        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
-
-if st.button("Start client"):
-    subprocess.Popen(["/app/tailscale-demo/tailscale",
-        "--socket=/tmp/tailscale.sock",
-        "up",
-        "--authkey=" + ephemeral_key])
+        "--socks5-server=localhost:1055"])
+    subprocess.Popen(["/app/tailscale-demo/tailscale", "--authkey={ephemeral_key}",
+        "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
@@ -52,3 +49,15 @@ with st.expander("Terminal debugger"):
 #    else:
 #        st.write("Sorry it didn't work for some reason :(")
 
+#if st.button("Start daemon"):
+#    os.system("ps aux | grep tailscale")
+#    os.system("ls -lah /tmp/tailscale*")
+#    subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
+#        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
+#
+#if st.button("Start client"):
+#    subprocess.Popen(["/app/tailscale-demo/tailscale",
+#        "--socket=/tmp/tailscale.sock",
+#        "up",
+#        "--authkey=" + ephemeral_key])
+#
