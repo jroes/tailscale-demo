@@ -11,9 +11,9 @@ ephemeral_key = st.text_input("Ephemeral key")
 
 if st.button("Initialize Tailscale"):
     os.system("mkdir -p /var/run/tailscale /var/cache/tailscale /var/lib/tailscale")
-    subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
+    subprocess.Popen(["sudo", "/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socks5-server=localhost:1055"])
-    subprocess.Popen(["/app/tailscale-demo/tailscale", "--authkey={ephemeral_key}",
+    subprocess.Popen(["sudo", "/app/tailscale-demo/tailscale", "--authkey={ephemeral_key}",
         "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
