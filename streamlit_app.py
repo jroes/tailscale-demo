@@ -3,7 +3,7 @@ import subprocess
 import os
 import psycopg2
 import socks
-s.set_default_proxy(socks.SOCKS5, "localhost", 1055)
+socks.set_default_proxy(socks.SOCKS5, "localhost", 1055)
 
 st.title(f"Tailscale demo")
 
