@@ -3,6 +3,7 @@ import subprocess
 import os
 
 cwd = os.path.dirname(os.path.realpath(__file__))
+st.write(cwd)
 
 st.title(f"Tailscale demo")
 
