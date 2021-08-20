@@ -1,26 +1,22 @@
 import streamlit as st
 import subprocess
-import os
-
-cwd = os.path.dirname(os.path.realpath(__file__))
-st.write(cwd)
 
 st.title(f"Tailscale demo")
 
 ephemeral_key = st.text_input("Ephemeral key")
 
-daemonproc = None
-clientproc = None
+self.daemonproc = None
+self.clientproc = None
 if st.button("Connect"):
-    daemonproc = subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
+    self.daemonproc = subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
-    clientproc = subprocess.Popen(["/app/tailscale-demo/tailscale", "--socket=/tmp/tailscale.sock", "up",
+    self.clientproc = subprocess.Popen(["/app/tailscale-demo/tailscale", "--socket=/tmp/tailscale.sock", "up",
         "--authkey=" + ephemeral_key])
 
 if st.button("Check connection"):
-    st.write("Daemon: " + daemonproc.poll())
-    st.write("Client: " + clientproc.poll())
+    st.write("Daemon: " + self.daemonproc.poll())
+    st.write("Client: " + self.clientproc.poll())
 
 #    if process.returncode == 0:
 #        st.balloons()
