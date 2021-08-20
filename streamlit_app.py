@@ -12,10 +12,10 @@ if st.button("Connect"):
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking"])
 #        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
-    subprocess.Popen(["/app/tailscale-demo/tailscale",
+#    subprocess.Popen(["/app/tailscale-demo/tailscale",
 #        "--socket=/tmp/tailscale.sock",
-        "up",
-        "--authkey=" + ephemeral_key])
+#        "up",
+#        "--authkey=" + ephemeral_key])
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale status")
