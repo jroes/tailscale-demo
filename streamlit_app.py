@@ -1,11 +1,14 @@
 import streamlit as st
 import subprocess
+import os
 
 st.title(f"Tailscale demo")
 
 ephemeral_key = st.text_input("Ephemeral key")
 
 if st.button("Connect"):
+    os.system("killall tailscaled")
+    os.system("killall tailscale")
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
 
