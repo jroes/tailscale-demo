@@ -2,12 +2,8 @@ import streamlit as st
 import subprocess
 import os
 import psycopg2
-import socks
-socks.set_default_proxy(socks.SOCKS5, "localhost", 1055)
 
 st.title(f"Tailscale demo")
-
-ephemeral_key = st.text_input("Ephemeral key")
 
 if st.button("Initialize Tailscale"):
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
@@ -15,7 +11,7 @@ if st.button("Initialize Tailscale"):
         "--socks5-server=localhost:1055"])
     subprocess.Popen(["/app/tailscale-demo/tailscale",
         "--socket=/tmp/tailscale.sock",
-        "up", "--authkey=" + ephemeral_key,
+        "up", "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
         "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
