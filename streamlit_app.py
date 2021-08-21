@@ -33,7 +33,8 @@ if st.button("Connect"):
 
 with st.expander("Terminal debugger"):
     command = st.text_input("Command")
-    os.system(command)
+    if st.button("Execute"):
+        os.system(command)
 
 #    st.write("Daemon: " + daemonproc.poll())
 
