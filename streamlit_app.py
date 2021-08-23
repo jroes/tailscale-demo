@@ -7,11 +7,12 @@ st.title(f"Tailscale demo")
 
 if st.button("Initialize Tailscale"):
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
-        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale",
-        "--socks5-server=localhost:1055"])
+        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
+#        "--socks5-server=localhost:1055"])
     subprocess.Popen(["/app/tailscale-demo/tailscale",
         "--socket=/tmp/tailscale.sock",
-        "up", "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
+        "up",
+#        "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
         "--hostname=tailscale-demo"])
 
 if st.button("Check connection"):
