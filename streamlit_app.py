@@ -1,3 +1,10 @@
+# Monkeypatch stdlib to use the proxy
+import socket
+import socks
+
+socks.set_default_proxy(socks.SOCKS5, os.getenv("ALL_PROXY"))
+socket.socket = socks.socksocket
+
 import streamlit as st
 import subprocess
 import os
