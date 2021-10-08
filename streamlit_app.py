@@ -1,15 +1,7 @@
 import os
-# Monkeypatch stdlib to use the proxy
-import socket
-import socks
-
-socks.set_default_proxy(socks.SOCKS5, os.getenv("ALL_PROXY"))
-socket.socket = socks.socksocket
-
 import streamlit as st
 import subprocess
 import psycopg2
-import asyncio
 import asyncpg
 
 st.title(f"Tailscale demo")
@@ -54,9 +46,9 @@ with st.expander("asyncpg"):
 
 
 with st.expander("psycopg"):
-    host = st.text_input("Host")
-    user = st.text_input("User")
-    password = st.text_input("Password")
+    host = "fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70" #st.text_input("Host")
+    user = "demo" #st.text_input("User")
+    password = "demo" #st.text_input("Password")
     if st.button("Connect"):
         conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=10)
         cursor = conn.cursor()
