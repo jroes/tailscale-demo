@@ -33,7 +33,16 @@ with st.expander("asyncpg"):
         )
         await conn.close()
 
-    loop = asyncio.get_event_loop()
+    def get_or_create_eventloop():
+        try:
+            return asyncio.get_event_loop()
+        except RuntimeError as ex:
+            if "There is no current event loop in thread" in str(ex):
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                return asyncio.get_event_loop()
+
+    loop = get_or_create_eventloop()
     loop.run_until_complete(run())
 
 
