@@ -1,4 +1,4 @@
 psycopg2
 asyncpg
 pysocks
-streamlit=="1.0"
+streamlit=="1.0.0"
