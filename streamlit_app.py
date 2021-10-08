@@ -2,7 +2,6 @@ import os
 import streamlit as st
 import subprocess
 import psycopg2
-import asyncpg
 
 st.title(f"Tailscale demo")
 
@@ -22,27 +21,6 @@ if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
 
 st.header("Postgres")
-
-with st.expander("asyncpg"):
-    async def run():
-        conn = await asyncpg.connect(user='demo', password='demo',
-                                     database='demo', host='fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70')
-        values = await conn.fetch(
-            'SELECT * FROM people'
-        )
-        await conn.close()
-
-    def get_or_create_eventloop():
-        try:
-            return asyncio.get_event_loop()
-        except RuntimeError as ex:
-            if "There is no current event loop in thread" in str(ex):
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                return asyncio.get_event_loop()
-
-    loop = get_or_create_eventloop()
-    loop.run_until_complete(run())
 
 
 with st.expander("psycopg"):
