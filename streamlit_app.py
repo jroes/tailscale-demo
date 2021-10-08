@@ -2,6 +2,8 @@ import streamlit as st
 import subprocess
 import os
 import psycopg2
+import asyncio
+import asyncpg
 
 st.title(f"Tailscale demo")
 
@@ -20,16 +22,31 @@ if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
 
-st.header("Postgres")
-host = st.text_input("Host")
-user = st.text_input("User")
-password = st.text_input("Password")
-if st.button("Connect"):
-    conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=10)
-    cursor = conn.cursor()
-    cursor.execute("select version()")
-    data = cursor.fetchone()
-    st.write("Connection established: " + data)
+st.header("Postgres")o
+
+with st.expander(""):
+    async def run():
+        conn = await asyncpg.connect(user='demo', password='demo',
+                                     database='demo', host='fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70')
+        values = await conn.fetch(
+            'SELECT * FROM people'
+        )
+        await conn.close()
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run())
+
+
+with st.expander("psycopg"):
+    host = st.text_input("Host")
+    user = st.text_input("User")
+    password = st.text_input("Password")
+    if st.button("Connect"):
+        conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=10)
+        cursor = conn.cursor()
+        cursor.execute("select version()")
+        data = cursor.fetchone()
+        st.write("Connection established: " + data)
 
 
 with st.expander("Terminal debugger"):
