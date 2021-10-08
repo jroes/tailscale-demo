@@ -1,3 +1,4 @@
+import os
 # Monkeypatch stdlib to use the proxy
 import socket
 import socks
@@ -7,7 +8,6 @@ socket.socket = socks.socksocket
 
 import streamlit as st
 import subprocess
-import os
 import psycopg2
 import asyncio
 import asyncpg
