@@ -22,9 +22,9 @@ if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
 
-st.header("Postgres")o
+st.header("Postgres")
 
-with st.expander(""):
+with st.expander("asyncpg"):
     async def run():
         conn = await asyncpg.connect(user='demo', password='demo',
                                      database='demo', host='fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70')
