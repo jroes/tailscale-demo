@@ -35,7 +35,7 @@ st.header("Postgres")
 
 with st.expander("psycopg"):
     if st.button("Connect"):
-        conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=10)
+        conn = psycopg2.connect(host="localhost", user=user, password=password, connect_timeout=10)
         cursor = conn.cursor()
         cursor.execute("select version()")
         data = cursor.fetchone()
