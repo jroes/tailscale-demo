@@ -15,6 +15,17 @@ if st.button("Initialize Tailscale"):
         "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
         "--hostname=tailscale-demo"])
 
+host = st.text_input("Host", value="fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70")
+user = st.text_input("Username", value="demo")
+password = st.text_input("Password", value="demo", type="password")
+
+if st.button("Initialize socat"):
+    subprocess.Popen(["socat", "TCP-LISTEN:5432,fork", f"SOCKS5:127.0.0.1:{host}:5432,socksport=1055"])
+
+#if st.button("Boot SSH tunnel"):
+    # TODO: Put passwordless private key in a secret
+#    subprocess.Popen(["ssh -L 5432:remote.server.com:5432 myuser@remote.server.com"])
+
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
@@ -22,11 +33,7 @@ if st.button("Check connection"):
 
 st.header("Postgres")
 
-
 with st.expander("psycopg"):
-    host = "fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70" #st.text_input("Host")
-    user = "demo" #st.text_input("User")
-    password = "demo" #st.text_input("Password")
     if st.button("Connect"):
         conn = psycopg2.connect(host=host, user=user, password=password, connect_timeout=10)
         cursor = conn.cursor()
