@@ -5,8 +5,6 @@ import psycopg2
 
 st.title(f"Tailscale demo")
 
-proxychains_proc = None
-
 if st.button("Initialize Tailscale"):
     subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale",
@@ -21,14 +19,8 @@ host = st.text_input("Host", value="fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70")
 user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
-if proxychains_proc is None:
-    if st.button("Initialize proxychains"):
-        proxychains_proc = subprocess.Popen(["/app/tailscale-demo/proxychains4", "-f", "proxychains.conf"])
-else:
-    if st.button("Kill proxychains"):
-        proxychains_proc.kill()
-        proxychains_proc = None
-
+if st.button("Initialize proxychains"):
+    subprocess.Popen(["/app/tailscale-demo/proxychains4", "-f", "proxychains.conf"])
 
 #if st.button("Boot SSH tunnel"):
     # TODO: Put passwordless private key in a secret
