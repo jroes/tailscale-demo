@@ -22,7 +22,7 @@ user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
 if st.button("Initialize proxychains"):
-    procs.append(subprocess.Popen(["proxychains4"]))
+    procs.append(subprocess.Popen(["/app/tailscale-demo/proxychains4"]))
 
 #if st.button("Boot SSH tunnel"):
     # TODO: Put passwordless private key in a secret
