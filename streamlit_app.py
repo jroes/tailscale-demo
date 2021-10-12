@@ -19,7 +19,7 @@ host = st.text_input("Host", value="fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70")
 user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
-if st.button("Initialize proxychains"):
+if st.button("Initialize is this working proxychains"):
     subprocess.Popen(["/app/tailscale-demo/proxychains4", "-f", "proxychains.conf"])
 
 #if st.button("Boot SSH tunnel"):
