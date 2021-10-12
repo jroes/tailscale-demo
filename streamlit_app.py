@@ -20,7 +20,7 @@ user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
 if st.button("Initialize socat"):
-    subprocess.Popen(["socat", "TCP-LISTEN:5432,fork", f"SOCKS5:127.0.0.1:{host}:5432,socksport=1055"])
+    subprocess.Popen(["socat", "TCP-LISTEN:5432,fork", f"SOCKS4A:127.0.0.1:{host}:5432,socksport=1055"])
 
 #if st.button("Boot SSH tunnel"):
     # TODO: Put passwordless private key in a secret
