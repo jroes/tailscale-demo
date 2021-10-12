@@ -20,7 +20,7 @@ user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
 if st.button("Initialize socat"):
-    subprocess.Popen(["socat", "TCP-LISTEN:5432,fork", f"SOCKS4A:127.0.0.1:{host}:5432,socksport=1055"])
+    subprocess.Popen(["socat", "TCP-LISTEN:54321,fork", f"SOCKS4A:127.0.0.1:{host}:5432,socksport=1055"])
 
 #if st.button("Boot SSH tunnel"):
     # TODO: Put passwordless private key in a secret
@@ -35,7 +35,7 @@ st.header("Postgres")
 
 with st.expander("psycopg"):
     if st.button("Connect"):
-        conn = psycopg2.connect(host="localhost", user=user, password=password, connect_timeout=10)
+        conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
         cursor = conn.cursor()
         cursor.execute("select version()")
         data = cursor.fetchone()
