@@ -55,28 +55,3 @@ with st.expander("Terminal debugger"):
     if st.button("Execute"):
         os.system("echo running: " + command)
         os.system(command)
-
-#    st.write("Daemon: " + daemonproc.poll())
-
-#    st.write("Client: " + clientproc.poll())
-
-#    if process.returncode == 0:
-#        st.balloons()
-#        st.header("You're connected!")
-#        # TODO: Disable the button
-#        # TODO: Enable a button to query the db
-#    else:
-#        st.write("Sorry it didn't work for some reason :(")
-
-#if st.button("Start daemon"):
-#    os.system("ps aux | grep tailscale")
-#    os.system("ls -lah /tmp/tailscale*")
-#    subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
-#        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale"])
-#
-#if st.button("Start client"):
-#    subprocess.Popen(["/app/tailscale-demo/tailscale",
-#        "--socket=/tmp/tailscale.sock",
-#        "up",
-#        "--authkey=" + ephemeral_key])
-#
