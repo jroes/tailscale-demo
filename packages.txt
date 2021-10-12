@@ -1,5 +1,2 @@
 iputils-ping
 postgresql-client
-netcat
-tsocks
-socat

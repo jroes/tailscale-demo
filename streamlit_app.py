@@ -5,22 +5,24 @@ import psycopg2
 
 st.title(f"Tailscale demo")
 
+procs = []
+
 if st.button("Initialize Tailscale"):
-    subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
+    procs.append(subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
         "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale",
-        "--socks5-server=localhost:1055"])
-    subprocess.Popen(["/app/tailscale-demo/tailscale",
+        "--socks5-server=localhost:1055"]))
+    procs.append(subprocess.Popen(["/app/tailscale-demo/tailscale",
         "--socket=/tmp/tailscale.sock",
         "up",
         "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
-        "--hostname=tailscale-demo"])
+        "--hostname=tailscale-demo"]))
 
 host = st.text_input("Host", value="fd7a:115c:a1e0:ab12:4843:cd96:6256:7b70")
 user = st.text_input("Username", value="demo")
 password = st.text_input("Password", value="demo", type="password")
 
-if st.button("Initialize socat"):
-    subprocess.Popen(["socat", "TCP-LISTEN:54321,fork", f"SOCKS4A:127.0.0.1:{host}:5432,socksport=1055"])
+if st.button("Initialize proxychains"):
+    procs.append(subprocess.Popen(["proxychains"]))
 
 #if st.button("Boot SSH tunnel"):
     # TODO: Put passwordless private key in a secret
@@ -47,6 +49,9 @@ with st.expander("Terminal debugger"):
     if st.button("Execute"):
         os.system("echo running: " + command)
         os.system(command)
+
+# TODO: Enable better process management
+st.write(procs)
 
 #    st.write("Daemon: " + daemonproc.poll())
 
