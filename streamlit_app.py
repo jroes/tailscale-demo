@@ -57,11 +57,9 @@ if st.button("Check connection"):
 
 st.header("Postgres")
 
-conn = None
-with st.expander("psycopg"):
-    if st.button("Connect"):
-        global conn
-        conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
+@st.experimental_singleton
+def connect():
+    return psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
 with st.expander("Terminal debugger"):
     command = st.text_input("Command")
@@ -70,5 +68,6 @@ with st.expander("Terminal debugger"):
         os.system(command)
 
 if st.button("Query database"):
+    conn = connect()
     df = psql.read_sql('SELECT VERSION()', conn)
     st.dataframe(df)
