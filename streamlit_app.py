@@ -37,7 +37,7 @@ if st.button("Connect to SSH tunnel"):
     tunnel.connect()
 
 if tunnel.is_connected():
-    st.write(proc)
+    st.write(tunnel.proc)
 
 ## Tailscale stuff
 
