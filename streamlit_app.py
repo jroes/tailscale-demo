@@ -62,14 +62,12 @@ with st.expander("psycopg"):
     if st.button("Connect"):
         conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
-if st.button("Query database"):
-    if conn is not None:
-        df = psql.read_sql('SELECT VERSION()', conn)
-        df
-
-
 with st.expander("Terminal debugger"):
     command = st.text_input("Command")
     if st.button("Execute"):
         os.system("echo running: " + command)
         os.system(command)
+
+if st.button("Query database"):
+    df = psql.read_sql('SELECT VERSION()', conn)
+    st.dataframe(df)
