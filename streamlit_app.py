@@ -61,12 +61,12 @@ with st.expander("psycopg"):
     if st.button("Connect"):
         conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
+if st.button("Query database"):
     if conn is not None:
-        if st.button("Query database"):
-            cursor = conn.cursor()
-            cursor.execute("select version()")
-            data = cursor.fetchone()
-            st.write(data)
+        cursor = conn.cursor()
+        cursor.execute("select version()")
+        data = cursor.fetchone()
+        st.write(data)
 
 
 with st.expander("Terminal debugger"):
