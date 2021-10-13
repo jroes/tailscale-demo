@@ -60,6 +60,7 @@ st.header("Postgres")
 conn = None
 with st.expander("psycopg"):
     if st.button("Connect"):
+        global conn
         conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
 with st.expander("Terminal debugger"):
