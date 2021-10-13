@@ -44,7 +44,7 @@ if st.button("Boot SSH tunnel"):
     os.system(f"mkdir -p ~/.ssh && chmod 700 ~/.ssh")
     with open("/home/appuser/.ssh/key", "w") as f:
         f.write(st.secrets["SSH_AUTHKEY"])
-    os.chmod("~/.ssh/key", 0o600) # user read/write only
+    os.chmod("/home/appuser/.ssh/key", 0o600) # user read/write only
     os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
     subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-L", f"5432:{st.secrets['SSH_HOST']}:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"])
     #os.remove("~/.ssh/key") # no need to keep on disk
