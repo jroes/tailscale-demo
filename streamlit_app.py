@@ -16,7 +16,7 @@ def init_tunnel():
 st.title(f"Tailscale & SSH demo")
 
 st.header("Postgres")
-if st.expander("Connection details"):
+with st.expander("Connection details"):
     host = st.text_input("Host", value="localhost")
     user = st.text_input("Username", value="demo")
     password = st.text_input("Password", value="demo", type="password")
