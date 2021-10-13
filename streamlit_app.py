@@ -6,7 +6,7 @@ import pandas.io.sql as psql
 
 
 class SSHTunnel():
-    def initialize(self):
+    def __init__(self):
         self.proc = None
 
     def connect(self):
