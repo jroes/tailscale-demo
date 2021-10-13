@@ -45,7 +45,7 @@ if st.button("Boot SSH tunnel"):
         f.write(st.secrets["SSH_AUTHKEY"])
     os.chmod("/tmp/key", 0o600) # user read/write only
     subprocess.Popen([f"ssh -i /tmp/key -L 5432:{st.secrets['SSH_HOST']}:5432 {st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"])
-    os.remove("/tmp/key") # no need to keep on disk
+    #os.remove("/tmp/key") # no need to keep on disk
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
