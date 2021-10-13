@@ -61,13 +61,13 @@ st.header("Postgres")
 def connect():
     return psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
+if st.button("Query database"):
+    conn = connect()
+    df = psql.read_sql('SELECT * from people;', conn)
+    st.dataframe(df)
+
 with st.expander("Terminal debugger"):
     command = st.text_input("Command")
     if st.button("Execute"):
         os.system("echo running: " + command)
         os.system(command)
-
-if st.button("Query database"):
-    conn = connect()
-    df = psql.read_sql('SELECT VERSION()', conn)
-    st.dataframe(df)
