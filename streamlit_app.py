@@ -4,7 +4,6 @@ import subprocess
 import psycopg2
 import pandas.io.sql as psql
 
-
 class SSHTunnel():
     def __init__(self):
         self.proc = None
@@ -27,22 +26,25 @@ class SSHTunnel():
         else:
             return False
 
-tunnel = SSHTunnel()
-
 @st.experimental_singleton
 def connect():
     return psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
 st.title(f"Tailscale & SSH demo")
 
-st.header("SSH tunnel")
-if tunnel.is_connected():
-    st.write(tunnel.proc)
-    if st.button("Disconnect"):
-        tunnel.disconnect()
-else:
-    if st.button("Connect to SSH tunnel"):
-        tunnel.connect()
+def main():
+    tunnel = SSHTunnel()
+
+    st.header("SSH tunnel")
+    if tunnel.is_connected():
+        st.write(tunnel.proc)
+        if st.button("Disconnect"):
+            tunnel.disconnect()
+    else:
+        if st.button("Connect to SSH tunnel"):
+            tunnel.connect()
+
+main()
 
 ## Tailscale stuff
 
