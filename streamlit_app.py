@@ -46,7 +46,7 @@ if st.button("Boot SSH tunnel"):
         f.write(st.secrets["SSH_AUTHKEY"])
     os.chmod("/home/appuser/.ssh/key", 0o600) # user read/write only
     os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
-    subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"5454:{st.secrets['SSH_HOST']}:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"])
+    subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"54320:{st.secrets['SSH_HOST']}:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"])
     #os.remove("~/.ssh/key") # no need to keep on disk
 
 if st.button("Check connection"):
@@ -58,7 +58,7 @@ st.header("Postgres")
 
 with st.expander("psycopg"):
     if st.button("Connect"):
-        conn = psycopg2.connect(host="localhost", user=user, port=5454, password=password, connect_timeout=10)
+        conn = psycopg2.connect(host="localhost", user=user, port=54320, password=password, connect_timeout=10)
         cursor = conn.cursor()
         cursor.execute("select version()")
         data = cursor.fetchone()
