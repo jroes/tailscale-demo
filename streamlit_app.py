@@ -42,7 +42,7 @@ if st.button("Initialize is this working proxychains"):
 
 if st.button("Boot SSH tunnel"):
     os.system(f"mkdir -p ~/.ssh && chmod 700 ~/.ssh")
-    with open("~/.ssh/key", "w") as f:
+    with open("/home/appuser/.ssh/key", "w") as f:
         f.write(st.secrets["SSH_AUTHKEY"])
     os.chmod("~/.ssh/key", 0o600) # user read/write only
     os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
