@@ -46,25 +46,6 @@ def main():
 
 main()
 
-## Tailscale stuff
-
-st.header("Tailscale")
-
-if st.button("Initialize Tailscale"):
-    subprocess.Popen(["/app/tailscale-demo/tailscaled", "--tun=userspace-networking",
-        "--socket=/tmp/tailscale.sock", "--state=/tmp/tailscale",
-        "--socks5-server=localhost:1055"])
-    subprocess.Popen(["/app/tailscale-demo/tailscale",
-        "--socket=/tmp/tailscale.sock",
-        "up",
-        "--authkey=" + os.getenv('TAILSCALE_AUTHKEY'),
-        "--hostname=tailscale-demo"])
-
-if st.button("Check connection"):
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock netcheck")
-    os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock ip")
-
 st.header("Playing with the database")
 with st.expander("Connection details"):
     host = st.text_input("Host", value="localhost")
