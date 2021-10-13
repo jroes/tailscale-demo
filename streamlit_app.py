@@ -62,7 +62,7 @@ with st.expander("psycopg"):
         cursor = conn.cursor()
         cursor.execute("select version()")
         data = cursor.fetchone()
-        st.write("Connection established: " + data)
+        st.write(data)
 
 
 with st.expander("Terminal debugger"):
