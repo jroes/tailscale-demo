@@ -56,8 +56,8 @@ if st.button("Check connection"):
 
 st.header("Postgres")
 
+conn = None
 with st.expander("psycopg"):
-    conn = None
     if st.button("Connect"):
         conn = psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)
 
