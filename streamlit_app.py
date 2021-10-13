@@ -19,6 +19,7 @@ import os
 import streamlit as st
 import subprocess
 import psycopg2
+import pandas.io.sql as psql
 
 st.title(f"Tailscale demo")
 
@@ -63,10 +64,8 @@ with st.expander("psycopg"):
 
 if st.button("Query database"):
     if conn is not None:
-        cursor = conn.cursor()
-        cursor.execute("select version()")
-        data = cursor.fetchone()
-        st.write(data)
+        df = psql.read_sql('SELECT VERSION()', conn)
+        df
 
 
 with st.expander("Terminal debugger"):
