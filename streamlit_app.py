@@ -1,3 +1,20 @@
+# 
+#
+#
+##
+#
+
+# Note to future me: proxychains won't work because it needs to run the program inside of it
+# Unless we really hack it up and like run some piece of python code separately
+
+# Alternative, more easy-mode solution: just use ssh -L / whatever to do a reverse proxy
+# Things to do for that:
+#  * Generate an ssh keypair on the db server
+#  * Set the key as an env var
+#  * Find working ssh -L example
+# .... Profit?!
+
+
 import os
 import streamlit as st
 import subprocess
@@ -23,9 +40,12 @@ if st.button("Initialize is this working proxychains"):
     #subprocess.Popen(["/app/tailscale-demo/proxychains4", "-f", "proxychains.conf"])
     os.system("/app/tailscale-demo/proxychains4 socks5 127.0.0.1 1055")
 
-#if st.button("Boot SSH tunnel"):
-    # TODO: Put passwordless private key in a secret
-#    subprocess.Popen(["ssh -L 5432:remote.server.com:5432 myuser@remote.server.com"])
+if st.button("Boot SSH tunnel"):
+    with open("/tmp/key", "w") as f:
+        f.write(st.secrets["SSH_AUTHKEY"])
+    os.chmod("/tmp/key", 0o600) # user read/write only
+    subprocess.Popen([f"ssh -i /tmp/key -L 5432:{st.secrets["SSH_HOST"]}:5432 {st.secrets["SSH_USER"]}@{st.secrets["SSH_HOST"]}"])
+    os.remove("/tmp/key") # no need to keep on disk
 
 if st.button("Check connection"):
     os.system("/app/tailscale-demo/tailscale --socket=/tmp/tailscale.sock status")
