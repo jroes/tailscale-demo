@@ -16,7 +16,7 @@ class SSHTunnel():
         os.chmod("/home/appuser/.ssh/key", 0o600) # user read/write only
         os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
         self.proc = subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"54321:localhost:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"],
-            stdout=PIPE, stderr=PIPE)
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         #os.remove("~/.ssh/key") # no need to keep on disk
     
     def disconnect(self):
