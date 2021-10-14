@@ -22,6 +22,9 @@ class SSHTunnel():
         self.proc.kill()
         self.proc = None
 
+    def is_error(self):
+        return self.proc.returncode != 0
+
     def is_connected(self):
         if self.proc is not None and self.proc.returncode == 0:
             return True
@@ -42,12 +45,11 @@ def draw_tunnel_status():
 
     st.header("SSH tunnel")
     st.write(tunnel.proc)
-    st.write(tunnel.proc.returncode)
     if st.button("Disconnect"):
         tunnel.disconnect()
     if st.button("Connect to SSH tunnel"):
         tunnel.connect()
-        while not tunnel.is_connected() and tunnel.proc.returncode is not None:
+        while not tunnel.is_connected() and not tunnel.is_error():
             with st.spinner("Connecting..."):
                 time.sleep(0.1)
         st.success("Connected!")
