@@ -3,6 +3,7 @@ import streamlit as st
 import subprocess
 import psycopg2
 import pandas.io.sql as psql
+import time
 
 class SSHTunnel():
     def __init__(self):
@@ -21,7 +22,7 @@ class SSHTunnel():
         self.proc.kill()
 
     def is_connected(self):
-        if self.proc is not None:
+        if self.proc is not None and self.proc.returncode == 0:
             return True
         else:
             return False
@@ -40,11 +41,12 @@ def draw_tunnel_status():
 
     st.header("SSH tunnel")
     st.write(tunnel.proc)
+    st.write(tunnel.proc.returncode)
     if st.button("Disconnect"):
         tunnel.disconnect()
     if st.button("Connect to SSH tunnel"):
         tunnel.connect()
-        while not tunnel.is_connected():
+        while not tunnel.is_connected() and tunnel.proc.returncode is not None:
             with st.spinner("Connecting..."):
                 time.sleep(0.1)
         st.success("Connected!")
