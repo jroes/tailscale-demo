@@ -34,9 +34,10 @@ st.title(f"Tailscale & SSH demo")
 
 def main():
     tunnel = SSHTunnel()
+    proc = tunnel.proc
 
     st.header("SSH tunnel")
-    if tunnel.is_connected():
+    if proc is not None:
         st.write(tunnel.proc)
         if st.button("Disconnect"):
             tunnel.disconnect()
