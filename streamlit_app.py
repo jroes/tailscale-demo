@@ -39,15 +39,15 @@ def draw_tunnel_status():
     tunnel = st.session_state['tunnel']
 
     st.header("SSH tunnel")
-    if tunnel.is_connected():
-        st.write(tunnel.proc)
-        if st.button("Disconnect"):
-            tunnel.disconnect()
-            draw_tunnel_status()
-    else:
-        if st.button("Connect to SSH tunnel"):
-            tunnel.connect()
-            draw_tunnel_status()
+    st.write(tunnel.proc)
+    if st.button("Disconnect"):
+        tunnel.disconnect()
+    if st.button("Connect to SSH tunnel"):
+        tunnel.connect()
+        while not tunnel.is_connected():
+            with st.spinner("Connecting..."):
+                time.sleep(0.1)
+        st.success("Connected!")
 
 draw_tunnel_status()
 
