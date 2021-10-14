@@ -15,7 +15,8 @@ class SSHTunnel():
             f.write(st.secrets["SSH_AUTHKEY"])
         os.chmod("/home/appuser/.ssh/key", 0o600) # user read/write only
         os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
-        self.proc = subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"54321:localhost:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"])
+        self.proc = subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"54321:localhost:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"],
+            stdout=PIPE, stderr=PIPE)
         #os.remove("~/.ssh/key") # no need to keep on disk
     
     def disconnect(self):
@@ -30,6 +31,10 @@ class SSHTunnel():
             return True
         else:
             return False
+    
+    def get_output(self):
+        output, error = self.proc.communicate()
+        return [output, error]
 
 @st.experimental_singleton
 def connect():
@@ -52,7 +57,10 @@ def draw_tunnel_status():
         while not tunnel.is_connected() and not tunnel.is_error():
             with st.spinner("Connecting..."):
                 time.sleep(0.1)
-        st.success("Connected!")
+        if tunnel.is_error():
+            st.error("Tunnel failed to connect: " + tunnel.proc.)
+        else:
+            st.success("Connected!")
 
 draw_tunnel_status()
 
