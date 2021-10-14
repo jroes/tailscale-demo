@@ -20,6 +20,7 @@ class SSHTunnel():
     
     def disconnect(self):
         self.proc.kill()
+        self.proc = None
 
     def is_connected(self):
         if self.proc is not None and self.proc.returncode == 0:
