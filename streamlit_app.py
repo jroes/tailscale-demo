@@ -58,7 +58,7 @@ def draw_tunnel_status():
             with st.spinner("Connecting..."):
                 time.sleep(0.1)
         if tunnel.is_error():
-            st.error("Tunnel failed to connect: " + tunnel.proc.get_output())
+            st.error("Tunnel failed to connect: " + tunnel.get_output())
         else:
             st.success("Connected!")
 
