@@ -32,20 +32,24 @@ def connect():
 
 st.title(f"Tailscale & SSH demo")
 
-def main():
-    tunnel = SSHTunnel()
-    proc = tunnel.proc
+def draw_tunnel_status():
+    if 'tunnel' not in st.session_state:
+        st.session_state['tunnel'] = SSHTunnel()
+
+    tunnel = st.session_state['tunnel']
 
     st.header("SSH tunnel")
-    if proc is not None:
+    if tunnel.is_connected():
         st.write(tunnel.proc)
         if st.button("Disconnect"):
             tunnel.disconnect()
+            draw_tunnel_status()
     else:
         if st.button("Connect to SSH tunnel"):
             tunnel.connect()
+            draw_tunnel_status()
 
-main()
+draw_tunnel_status()
 
 st.header("Playing with the database")
 with st.expander("Connection details"):
