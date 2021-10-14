@@ -54,9 +54,9 @@ def draw_tunnel_status():
         tunnel.disconnect()
     if st.button("Connect to SSH tunnel"):
         tunnel.connect()
+        with st.spinner("Connecting...")
         while not tunnel.is_connected() and not tunnel.is_error():
-            with st.spinner("Connecting..."):
-                time.sleep(0.1)
+            time.sleep(0.1)
         if tunnel.is_error():
             st.error("Tunnel failed to connect: " + tunnel.get_output())
         else:
