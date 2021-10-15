@@ -31,7 +31,7 @@ class SSHTunnel:
                 "-i",
                 "~/.ssh/key",
                 "-4",
-                "-N",
+                "-fNT",
                 "-L",
                 f"54321:localhost:5432",
                 f"{self.ssh_user}@{self.ssh_host}",
