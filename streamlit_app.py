@@ -32,7 +32,6 @@ def render_tunnel_state():
         if tunnel.is_failed():
             st.write("Tunnel failed to connect.")
 
-
 @st.experimental_singleton
 def connect():
     return psycopg2.connect(host="localhost", user=user, port=54321, password=password, connect_timeout=10)

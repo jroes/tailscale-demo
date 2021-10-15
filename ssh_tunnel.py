@@ -35,9 +35,7 @@ class SSHTunnel:
                 "-L",
                 f"54321:localhost:5432",
                 f"{self.ssh_user}@{self.ssh_host}",
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            ]
         )
         # os.remove("~/.ssh/key") # no need to keep on disk
 
