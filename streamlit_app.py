@@ -27,6 +27,7 @@ def render_tunnel_state():
         st.button("Connect to SSH tunnel", on_click=on_connect)
 
     if st.button("Check tunnel status"):
+        tunnel.evaluate_state()
         st.markdown("Tunnel state: " + str(tunnel.state))
 
 
