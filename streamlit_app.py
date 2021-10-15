@@ -29,6 +29,8 @@ def render_tunnel_state():
     if st.button("Check tunnel status"):
         tunnel.evaluate_state()
         st.markdown("Tunnel state: " + str(tunnel.state))
+        if tunnel.is_failed():
+            st.error("Tunnel failed to connect: " + tunnel.get_output())
 
 
 @st.experimental_singleton
