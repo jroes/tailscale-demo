@@ -6,7 +6,7 @@ import time
 from ssh_tunnel import SSHTunnel
 
 def render_tunnel_state():
-    print("Hello world")
+    st.header("SSH Tunnel")
     if 'tunnel' not in st.session_state:
         st.session_state.tunnel = SSHTunnel(st.secrets['SSH_AUTHKEY'], st.secrets['SSH_USER'], st.secrets['SSH_HOST'])
 
@@ -17,12 +17,6 @@ def render_tunnel_state():
         st.session_state.tunnel.disconnect()
 
     tunnel = st.session_state.tunnel
-    if tunnel.is_connecting():  # I made this up...to represent you are making a connection, but we haven't gotten to a final state yet
-        # Delay moving forward until a connection or error occurs
-        with st.spinner("Connecting..."):
-            while tunnel.is_connecting():
-                tunnel.evaluate_state()
-                time.sleep(0.1)
 
     if tunnel.is_connected():
         st.button("Disconnect", on_click=on_disconnect)
@@ -31,6 +25,10 @@ def render_tunnel_state():
             st.error("Tunnel failed to connect: " + tunnel.get_output())
 
         st.button("Connect to SSH tunnel", on_click=on_connect)
+
+    if st.button("Check tunnel status"):
+        st.markdown("Tunnel state: " + tunnel.state)
+
 
 @st.experimental_singleton
 def connect():

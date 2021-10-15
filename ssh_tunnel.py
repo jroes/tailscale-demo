@@ -2,13 +2,11 @@ import subprocess
 import os
 from enum import Enum
 
-
 class ConnectionState(Enum):
     CONNECTED = 1
     NOT_CONNECTED = 2
     CONNECTING = 3
     FAILED = 4
-
 
 class SSHTunnel:
     def __init__(self, ssh_private_key, ssh_user, ssh_host):
@@ -68,7 +66,6 @@ class SSHTunnel:
                 self.state = ConnectionState.FAILED
         else:
             self.state = ConnectionState.NOT_CONNECTED
-        print(f"Evaluated state -> {self.state}")
 
     def get_output(self):
         output, error = self.proc.communicate()
