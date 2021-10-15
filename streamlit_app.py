@@ -1,40 +1,34 @@
 import os
 import streamlit as st
-import subprocess
 import psycopg2
 import pandas.io.sql as psql
 import time
+from ssh_tunnel import SSHTunnel
 
-class SSHTunnel():
-    def __init__(self):
-        self.proc = None
+def render_tunnel_state():
+    if 'tunnel' not in st.session_state:
+        st.session_state.tunnel = SSHTunnel()
 
-    def connect(self):
-        os.system(f"mkdir -p ~/.ssh && chmod 700 ~/.ssh")
-        with open("/home/appuser/.ssh/key", "w") as f:
-            f.write(st.secrets["SSH_AUTHKEY"])
-        os.chmod("/home/appuser/.ssh/key", 0o600) # user read/write only
-        os.system(f"mkdir -p ~/.ssh && ssh-keyscan -H {st.secrets['SSH_HOST']} >> ~/.ssh/known_hosts")
-        self.proc = subprocess.Popen(["ssh", "-i", "~/.ssh/key", "-4", "-N", "-L", f"54321:localhost:5432", f"{st.secrets['SSH_USER']}@{st.secrets['SSH_HOST']}"],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        #os.remove("~/.ssh/key") # no need to keep on disk
-    
-    def disconnect(self):
-        self.proc.kill()
-        self.proc = None
+    def on_connect():
+        st.session_state.tunnel.connect()
 
-    def is_error(self):
-        return self.proc.returncode != 0
+    def on_disconnect():
+        st.session_state.tunnel.disconnect()
 
-    def is_connected(self):
-        if self.proc is not None and self.proc.returncode == 0:
-            return True
-        else:
-            return False
-    
-    def get_output(self):
-        output, error = self.proc.communicate()
-        return [output, error]
+    tunnel = st.session_state.tunnel
+    if tunnel.is_connecting():  # I made this up...to represent you are making a connection, but we haven't gotten to a final state yet
+        # Delay moving forward until a connection or error occurs
+        with st.spinner("Connecting..."):
+            while not tunnel.is_connected() and not tunnel.is_error():
+                time.sleep(0.1)
+
+    if tunnel.is_connected():
+        st.button("Disconnect", on_click=on_disconnect)
+    else:
+        if tunnel.is_failed():
+            st.error("Tunnel failed to connect: " + tunnel.get_output())
+
+        st.button("Connect to SSH tunnel", on_click=on_connect)
 
 @st.experimental_singleton
 def connect():
@@ -42,27 +36,7 @@ def connect():
 
 st.title(f"Tailscale & SSH demo")
 
-def draw_tunnel_status():
-    if 'tunnel' not in st.session_state:
-        st.session_state['tunnel'] = SSHTunnel()
-
-    tunnel = st.session_state['tunnel']
-
-    st.header("SSH tunnel")
-    st.write(tunnel.proc)
-    if st.button("Disconnect"):
-        tunnel.disconnect()
-    if st.button("Connect to SSH tunnel"):
-        tunnel.connect()
-        with st.spinner("Connecting..."):
-            while not tunnel.is_connected() and not tunnel.is_error():
-                time.sleep(0.1)
-        if tunnel.is_error():
-            st.error("Tunnel failed to connect: " + tunnel.get_output())
-        else:
-            st.success("Connected!")
-
-draw_tunnel_status()
+render_tunnel_state()
 
 st.header("Playing with the database")
 with st.expander("Connection details"):
