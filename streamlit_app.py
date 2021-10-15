@@ -31,7 +31,7 @@ def render_tunnel_state():
         st.markdown("Tunnel state: " + str(tunnel.state))
         if tunnel.is_failed():
             st.write("Tunnel failed to connect.")
-            st.write("Output: " + tunnel.get_output())
+            st.write("Output: " + str(tunnel.get_output()))
 
 @st.experimental_singleton
 def connect():

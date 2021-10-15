@@ -58,6 +58,7 @@ class SSHTunnel:
 
     def evaluate_state(self):
         if self.proc is not None:
+            self.proc.poll()
             if self.proc.returncode == 0:
                 self.state = ConnectionState.CONNECTED
             else:
