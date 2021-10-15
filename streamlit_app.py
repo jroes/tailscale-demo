@@ -6,6 +6,7 @@ import time
 from ssh_tunnel import SSHTunnel
 
 def render_tunnel_state():
+    print("Hello world")
     if 'tunnel' not in st.session_state:
         st.session_state.tunnel = SSHTunnel(st.secrets['SSH_AUTHKEY'], st.secrets['SSH_USER'], st.secrets['SSH_HOST'])
 
