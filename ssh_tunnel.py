@@ -68,5 +68,4 @@ class SSHTunnel:
             self.state = ConnectionState.NOT_CONNECTED
 
     def get_output(self):
-        output, error = self.proc.communicate()
-        return [output, error]
+        return [self.proc.stdout.read(), self.proc.stderr.read()]
