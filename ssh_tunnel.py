@@ -2,6 +2,7 @@ import subprocess
 import os
 from enum import Enum
 
+
 class ConnectionState(Enum):
     CONNECTED = 1
     NOT_CONNECTED = 2
@@ -48,21 +49,21 @@ class SSHTunnel:
         self.state = ConnectionState.NOT_CONNECTED
 
     def is_connected(self):
-	    return self.state == ConnectionState.CONNECTED
+        return self.state == ConnectionState.CONNECTED
 
     def is_connecting(self):
-	    return self.state == ConnectionState.CONNECTING
+        return self.state == ConnectionState.CONNECTING
 
     def is_not_connected(self):
-	    return self.state == ConnectionState.NOT_CONNECTED
+        return self.state == ConnectionState.NOT_CONNECTED
 
     def is_failed(self):
-	    return self.state == ConnectionState.FAILED
+        return self.state == ConnectionState.FAILED
 
     def evaluate_state(self):
-	    if self.proc is not None:
-		    if self.proc.returncode == 0:
-			    self.state = ConnectionState.CONNECTED
+        if self.proc is not None:
+            if self.proc.returncode == 0:
+                self.state = ConnectionState.CONNECTED
             else:
                 self.state = ConnectionState.FAILED
 
