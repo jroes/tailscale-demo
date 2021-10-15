@@ -19,7 +19,7 @@ def render_tunnel_state():
     if tunnel.is_connecting():  # I made this up...to represent you are making a connection, but we haven't gotten to a final state yet
         # Delay moving forward until a connection or error occurs
         with st.spinner("Connecting..."):
-            while not tunnel.is_connected() and not tunnel.is_failed():
+            while tunnel.is_connecting():
                 tunnel.evaluate_state()
                 time.sleep(0.1)
 
