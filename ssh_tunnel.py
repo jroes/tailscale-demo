@@ -66,6 +66,9 @@ class SSHTunnel:
                 self.state = ConnectionState.CONNECTED
             else:
                 self.state = ConnectionState.FAILED
+        else:
+            self.state = ConnectionState.NOT_CONNECTED
+        print(f"Evaluated state -> {self.state}")
 
     def get_output(self):
         output, error = self.proc.communicate()
